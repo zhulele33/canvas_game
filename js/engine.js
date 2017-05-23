@@ -20,6 +20,8 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
+        // status  当前游戏状态 0: 游戏中 1：失败  2：胜利  3:暂停 
+        global.status = 3;
 
 
     canvas.width = 505;
@@ -31,14 +33,17 @@ var Engine = (function(global) {
     doc.body.appendChild(operDom);
     var startBtn = doc.createElement('a');
     startBtn.id = "start";
-    startBtn.text = "kao"
+    startBtn.text = "开始"
     operDom.appendChild(startBtn);
     startBtn.onclick = start;
     var pauseBtn = doc.createElement('a');
     pauseBtn.id = "pause";
-    pauseBtn.text = "pause"
+    pauseBtn.text = "暂停";
     operDom.appendChild(pauseBtn);
-    pauseBtn.onclick = stop;
+    pauseBtn.onclick = function(){
+        stop();
+        console.log("stop test")
+    };
 
     /* 这个函数是整个游戏的主入口，负责适当的调用 update / render 函数 */
     function main() {
@@ -51,7 +56,9 @@ var Engine = (function(global) {
 
     // 设置游戏开始
     function start() {
+        global.status = 0;
         if (!global.reqAF) {
+            status = 0;
             main();
         }
     }
@@ -153,8 +160,14 @@ var Engine = (function(global) {
         /* 调用我们的 update / render 函数， 传递事件间隙给 update 函数因为这样
          * 可以使动画更加顺畅。
          */
-        update(dt);
+        
+        if(global.status == 0){
+            update(dt);
+
+        }
         render();
+        
+        
     }
 
     /* 紧接着我们来加载我们知道的需要来绘制我们游戏关卡的图片。然后把 init 方法设置为回调函数。

@@ -1,5 +1,4 @@
-// status  当前游戏状态  1：失败  2：胜利  3:暂停
-var status = 3;var startBtn;
+
 // 获取开始和暂停dom
 
 // pauseBtn = 
@@ -81,25 +80,22 @@ var Player = function(role,x,y){
  * 更新 x，y 并判断是否与敌人相撞*/
 Player.prototype.update = function () {
     //  这里为什么就停止不了
-    if(status == 1){
-        status = 3;
-        pauseBtn = document.getElementById("pause");
-        pauseBtn.click();
-        if(confirm("哈哈！你输啦啊,重新开始吧")){
-            startBtn = document.getElementById("start");
+    if(status == 1 || status == 2){
+  
+        
+        var msg = "哈哈！你输啦啊,重新开始吧";
+        if(status == 2){
+            msg = "恭喜你，过关！";
+        }
+        
+        if(confirm(msg)){
             this.reset();
-            startBtn.click();
+            status = 0;
         }else{
             this.reset();
+            status = 3;
         }
 
-    }else if(status == 2){
-        startBtn = document.getElementById("start");
-        if(confirm("恭喜你，过关！")){
-            /*this.reset();
-            status = 0;*/
-            startBtn.click();
-        }
     }
         //判断是否与敌人相撞
         // 两者横坐标相差不到一个格子的距离 并且纵坐标相等的时候 定为碰撞
