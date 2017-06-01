@@ -85,7 +85,7 @@ Player.prototype.update = function () {
         
         var msg = "哈哈！你输啦啊,重新开始吧";
         if(status == 2){
-            msg = "恭喜你，过关！";
+            msg = "恭喜你，过关乐乐乐乐！";
         }
         
         if(confirm(msg)){
